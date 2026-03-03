@@ -16,7 +16,20 @@ public class Segment {
 
     }
 
-    public String toSvg(){
-        return <line x1=""+a.x+"" y1=""+b.x+"" x2="300" y2="200" style="stroke:red;stroke-width:2" />
+    public String toSvg() {
+        return "<line x1='" + a.x + "' y1='" + a.y + "' x2='" + b.x + "' y2='" + b.y + "' style='stroke:red;stroke-width:2' />";
+    }
+
+    public static Segment najdluzszy(Segment[] tablica) {
+        if (tablica == null || tablica.length == 0) return null;
+
+        Segment maxSeg = tablica[0];
+
+        for (Segment s : tablica) {
+            if (s.length() > maxSeg.length()) {
+                maxSeg = s;
+            }
+        }
+        return maxSeg;
     }
 }
