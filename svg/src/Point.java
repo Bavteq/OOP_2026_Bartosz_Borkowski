@@ -1,23 +1,31 @@
 public class Point {
-    public double x, y;
 
-    public String toString(){
-        return "("+ this.x + ", "+y +")";
+    private double x;
+    private double y;
+
+    public Point() {
+        this.x = 0;
+        this.y = 0;
     }
 
-    public String toSvg(){
-        return "<circle r=\"2\" cx=\"" + x + "\" cy=\"" + y + "\" fill=\"black\" />";
+    public Point(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 
-    public void translate(double dx, double dy){
-        this.x += dx;
-        this.y += dy;
+    public Point(Point other) {
+        this.x = other.x;
+        this.y = other.y;
     }
 
-    public Point translated(double dx, double dy){
-        Point newPoint = new Point();
-        newPoint.x = this.x + dx;
-        newPoint.y = this.y + dy;
-        return newPoint;
+    public double getX() { return x; }
+    public void setX(double x) { this.x = x; }
+
+    public double getY() { return y; }
+    public void setY(double y) { this.y = y; }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
     }
 }

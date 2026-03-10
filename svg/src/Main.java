@@ -1,51 +1,67 @@
-import java.security.spec.RSAOtherPrimeInfo;
-
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
+        System.out.println("Zadanie 1 i 2: Point i Segment");
+
         Point p1 = new Point();
-        p1.x = 50.0;
-        p1.y = 50.0;
-        System.out.println("Zadanie 1:");
-        System.out.println("p1 = " + p1);
-        System.out.println("\n");
+        Point p2 = new Point(50, 100);
 
-        System.out.println("Zadanie 2:");
-        System.out.println(p1.toSvg());
-        System.out.println("\n");
+        p1.setX(10);
+        p1.setY(20);
+        System.out.println("Punkt p1 po uzyciu setterow: " + p1.toString());
+        System.out.println("Punkt p2: " + p2.toString());
 
-        System.out.println("Zadanie 3:");
-        p1.translate(10, -20);
-        System.out.println("p1 = " + p1);
-        System.out.println(p1.toSvg());
+        Segment segment = new Segment(p1, p2);
+        System.out.println("Odcinek przed zmiana punktow: " + segment.toString());
 
-        Point p2 = p1.translated(-30, 40);
-        System.out.println("p2 = " + p2);
-        System.out.println(p2.toSvg());
-        System.out.println("\n");
+        p1.setX(999);
 
-        System.out.println("Zadanie 4:");
-        Segment s1 = new Segment();
-        s1.a = p1;
-        s1.b = p2;
-        System.out.println("s1 = " + s1);
-        System.out.println("dlugosc s1 = " +s1.length());
-        System.out.println("\n");
+        System.out.println("Odcinek po zmianie p1 (powinien zostac bez zmian): " + segment.toString());
+        System.out.println();
 
-        Point p3 = new Point();
-        p3.x = 0; p3.y = 0;
-        Point p4 = new Point();
-        p4.x = 100; p4.y = 100;
+        System.out.println("Zadanie 3 i 4: Polygon i BoundingBox");
 
-        Segment s2 = new Segment();
-        s2.a = p3;
-        s2.b = p4;
+        Point[] points = {
+                new Point(10, 10),
+                new Point(100, 10),
+                new Point(50, 80)
+        };
 
-        System.out.println("Zadanie 5:");
-        Segment[] odcinki = new Segment[2];
-        odcinki[0] = s1;
-        odcinki[1] = s2;
-        Segment zwyciezca = Segment.najdluzszy(odcinki);
-        System.out.println("Najdłuższy odcinek to: " + zwyciezca);
-        System.out.println("Jego długość: " + zwyciezca.length());
+        Polygon poly1 = new Polygon(points);
+        System.out.println("Wielokat 1: " + poly1.toString());
+
+        points[0].setX(999);
+        System.out.println("Wielokat 1 po zmianie oryginalnej tablicy (nie powinien sie zmienic): " + poly1.toString());
+
+        Polygon poly2 = new Polygon(poly1);
+        System.out.println("Wielokat 2 (kopia wielokata 1): " + poly2.toString());
+
+        System.out.println("SVG dla Wielokata 1: " + poly1.toSvg());
+
+        System.out.println("BoundingBox dla Wielokata 1: " + poly1.boundingBox().toString());
+        System.out.println();
+
+        System.out.println("Zadanie 5, 6 i 8: SvgScene");
+        SvgScene scene = new SvgScene();
+
+        Point[] points3 = {new Point(200, 200), new Point(300, 200), new Point(250, 300)};
+        Polygon poly3 = new Polygon(points3);
+
+        Point[] points4 = {new Point(5, 5), new Point(20, 5), new Point(10, 20)};
+        Polygon poly4 = new Polygon(points4);
+
+        System.out.println("Dodaje poly1, poly2, poly3...");
+        scene.addPolygon(poly1);
+        scene.addPolygon(poly2);
+        scene.addPolygon(poly3);
+
+        System.out.println("Dodaje poly4 (powinno nadpisac poly1 na indeksie 0)...");
+        scene.addPolygon(poly4);
+
+        System.out.println("Kod SVG calej sceny:");
+        System.out.println(scene.toSvg());
+
+        String filePath = "obrazek.svg";
+        scene.save(filePath);
+        System.out.println("Scena zostala zapisana do pliku: " + filePath);
     }
 }
